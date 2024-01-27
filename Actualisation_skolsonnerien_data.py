@@ -3,9 +3,8 @@ import datetime
 import requests
 import wget
 
-url= "https://"
-
-data = wget.download(url,"skosonnerion-9trr.csv")
+url= "lien"
+data = wget.download(url,"skolsonnerion.csv")
     
 def load_data(filename):
     mylist =[]
@@ -70,8 +69,10 @@ def ranger_colonnes(data, dates, annees):
     list_id = []
     for i in range(len(list_trier)):
         list.append(data[list_trier[i]])
-    for i in range(1,len(list)+3): # Ajout de l'id
+    #for i in range(1,len(list)+3): # Ajout de l'id
+    for i in range(1,len(list[0])+1):
         list_id.append(i)
+    
     list.insert(0,list_id)
     
     list.append(annees)
@@ -89,6 +90,7 @@ def select_year(dates):
 
 # Inverse les colonnes et les lignes d'un csv
 def retourner_liste_imbriquee(liste):
+
     liste_imbriquee = []
     for i in range(len(liste[0])):
         element = []
@@ -115,11 +117,10 @@ new_list = load_data(data) # Récupère le fichier CSV et le retour en liste
 new_list = removeTitles(new_list) # Supprime les éléments vide de la liste
 liste_int = convertir_int(new_list) # Convertis la liste de str en entier
 liste_dates = convertir_en_date(liste_int) # Convertis la liste des timestamps en date
-liste_annees = select_year(liste_dates)
+liste_annees = select_year(liste_dates) # Récupère les années de chaques sorties
 liste_classe = ranger_colonnes(new_list, liste_dates, liste_annees)
 inverser_liste = retourner_liste_imbriquee(liste_classe)
 editer_csv(inverser_liste)
 
 
-#test = parcourir_liste(liste_classe)
-
+test = parcourir_liste(inverser_liste)
